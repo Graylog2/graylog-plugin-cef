@@ -1,6 +1,7 @@
 package org.graylog.plugins.cef;
 
 import org.graylog.plugins.cef.codec.CEFCodec;
+import org.graylog.plugins.cef.input.CEFKafkaInput;
 import org.graylog.plugins.cef.input.CEFTCPInput;
 import org.graylog.plugins.cef.input.CEFUDPInput;
 import org.graylog2.plugin.PluginConfigBean;
@@ -22,5 +23,6 @@ public class CEFInputModule extends PluginModule {
 
         addMessageInput(CEFUDPInput.class);
         addMessageInput(CEFTCPInput.class);
+        addMessageInput(CEFKafkaInput.class);
     }
 }
