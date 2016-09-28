@@ -48,7 +48,7 @@ public class CEFParserTest {
         int year = DateTime.now(DateTimeZone.getDefault()).getYear();
 
         CEFParser parser = new CEFParser(DateTimeZone.UTC);
-        CEFMessage m = parser.parse("<132>Aug 14 14:26:55 CEF:0|Trend Micro Inc.|OSSEC HIDS|v2.8.3|2502|User missed the password more than one time|10|dvc=ip-172-30-2-212 cs2=ip-172-30-2-212->/var/log/auth.log cs2Label=Location cfp2=90.01 cfp2Label=SomeFloat spt=22 ");
+        CEFMessage m = parser.parse("<132>Aug 14 14:26:55 CEF:0|Trend Micro Inc.|OSSEC HIDS|v2.8.3|2502|User missed the password more than one time|10|dvc=ip-172-30-2-212 cs2=ip-172-30-2-212->/var/log/auth.log cs2Label=Location cfp2=90.01 cfp2Label=SomeFloat spt=22");
 
         DateTime timestamp = m.timestamp().withZone(DateTimeZone.UTC);
 
@@ -80,12 +80,12 @@ public class CEFParserTest {
     @Test
     public void testParseUsesProvidedTimezone() throws Exception {
         CEFParser parser = new CEFParser(DateTimeZone.UTC);
-        CEFMessage m = parser.parse("<132>Aug 14 14:26:55 CEF:0|Trend Micro Inc.|OSSEC HIDS|v2.8.3|2502|User missed the password more than one time|10|dvc=ip-172-30-2-212 cs2=ip-172-30-2-212->/var/log/auth.log cs2Label=Location cfp2=90.01 cfp2Label=SomeFloat spt=22 ");
+        CEFMessage m = parser.parse("<132>Aug 14 14:26:55 CEF:0|Trend Micro Inc.|OSSEC HIDS|v2.8.3|2502|User missed the password more than one time|10|dvc=ip-172-30-2-212 cs2=ip-172-30-2-212->/var/log/auth.log cs2Label=Location cfp2=90.01 cfp2Label=SomeFloat spt=22");
 
         assertEquals("UTC", m.timestamp().getZone().toString());
 
         CEFParser parser2 = new CEFParser(DateTimeZone.forID("+01:00"));
-        CEFMessage m2 = parser2.parse("<132>Aug 14 14:26:55 CEF:0|Trend Micro Inc.|OSSEC HIDS|v2.8.3|2502|User missed the password more than one time|10|dvc=ip-172-30-2-212 cs2=ip-172-30-2-212->/var/log/auth.log cs2Label=Location cfp2=90.01 cfp2Label=SomeFloat spt=22 ");
+        CEFMessage m2 = parser2.parse("<132>Aug 14 14:26:55 CEF:0|Trend Micro Inc.|OSSEC HIDS|v2.8.3|2502|User missed the password more than one time|10|dvc=ip-172-30-2-212 cs2=ip-172-30-2-212->/var/log/auth.log cs2Label=Location cfp2=90.01 cfp2Label=SomeFloat spt=22");
 
         assertEquals("+01:00", m2.timestamp().getZone().toString());
     }
