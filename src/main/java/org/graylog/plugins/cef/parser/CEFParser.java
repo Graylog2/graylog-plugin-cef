@@ -1,5 +1,6 @@
 package org.graylog.plugins.cef.parser;
 
+import autovalue.shaded.com.google.common.common.collect.ImmutableMap;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -15,7 +16,7 @@ public class CEFParser {
      *   - benchmark regex
      */
 
-    private static final Pattern HEADER_PATTERN = Pattern.compile("^<\\d+>([a-zA-Z]{3} \\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}) CEF:(\\d+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)(?:$| (msg=.+))", Pattern.DOTALL);
+    private static final Pattern HEADER_PATTERN = Pattern.compile("(?:^<\\d+>([a-zA-Z]{3} \\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}).*|^)CEF:(\\d+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)\\|(.+?)(?:$| (msg=.+))", Pattern.DOTALL);
     private static final DateTimeFormatter TIMESTAMP_PATTERN = DateTimeFormat.forPattern("MMM dd HH:mm:ss");
 
     private static final CEFFieldsParser FIELDS_PARSER = new CEFFieldsParser();
@@ -30,12 +31,19 @@ public class CEFParser {
         Matcher m = HEADER_PATTERN.matcher(x);
 
         if(m.find()) {
-            DateTime timestamp = DateTime.parse(m.group(1), TIMESTAMP_PATTERN)
-                    .withYear(DateTime.now(timezone).getYear())
-                    .withZoneRetainFields(timezone);
 
             // Build the message with all CEF headers.
             CEFMessage.Builder builder = CEFMessage.builder();
+            DateTime timestamp;
+            if (m.group(1) == null || m.group(1).isEmpty()) {
+                // no syslog timestamp, using current time
+                timestamp = DateTime.now(timezone);
+            } else {
+                timestamp = DateTime.parse(m.group(1), TIMESTAMP_PATTERN)
+                        .withYear(DateTime.now(timezone).getYear())
+                        .withZoneRetainFields(timezone);
+            }
+
             builder.timestamp(timestamp);
             builder.version(Integer.valueOf(m.group(2)));
             builder.deviceVendor(m.group(3));
