@@ -96,4 +96,16 @@ public class CEFParserTest {
         CEFMessage m = parser.parse("<132>Aug  4 14:26:55 CEF:0|Trend Micro Inc.|OSSEC HIDS|v2.8.3|2502|User missed the password more than one time|10|dvc=ip-172-30-2-212 cfp2=90.01 cfp2Label=SomeFloat spt=22 cs2=ip-172-30-2-212->/var/log/auth.log cs2Label=Location msg=Aug 14 14:26:53 ip-172-30-2-212 sshd[16217]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=116.31.116.17  user=root");
     }
 
+    @Test
+    public void testIpInHeader() throws Exception {
+        CEFParser parser = new CEFParser(DateTimeZone.UTC);
+        CEFMessage m = parser.parse("<14>Feb 17 14:30:54 127.0.0.1 CEF:0|Palo Alto Networks|PAN-OS|7.0.0|vulnerability|THREAT|1|msg=");
+    }
+
+    @Test
+    public void testHostnameInHeader() throws Exception {
+        CEFParser parser = new CEFParser(DateTimeZone.UTC);
+        CEFMessage m = parser.parse("<14>Feb 17 14:30:54 localhost.local CEF:0|Palo Alto Networks|PAN-OS|7.0.0|vulnerability|THREAT|1|msg=");
+    }
+
 }
