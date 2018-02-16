@@ -58,12 +58,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.graylog.plugins</groupId>
-            <artifactId>graylog-plugin-pipeline-processor</artifactId>
-            <version>${graylog.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>com.google.auto.value</groupId>
             <artifactId>auto-value</artifactId>
             <version>${auto-value.version}</version>
