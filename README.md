@@ -1,3 +1,11 @@
+# DEPRECATION NOTICE
+
+This project has been merged into [graylog2-server](https://github.com/Graylog2/graylog2-server), see [#21](https://github.com/Graylog2/graylog-plugin-cef/issues/21)
+
+Please use the [issue tracker in the graylog2-server repository](https://github.com/Graylog2/graylog2-server/issues) for any feature requests or bug reports.
+
+----
+
 # Graylog CEF message input
 
 [![Build Status](https://travis-ci.org/Graylog2/graylog-plugin-cef.svg?branch=master)](https://travis-ci.org/Graylog2/graylog-plugin-cef)
