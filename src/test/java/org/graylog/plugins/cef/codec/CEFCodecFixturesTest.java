@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
+import java.util.stream.Stream;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.graylog2.plugin.Message;
 import org.graylog2.plugin.configuration.Configuration;
@@ -79,9 +80,12 @@ public class CEFCodecFixturesTest {
                 .enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         final URL fixturesURL = Resources.getResource("fixtures");
         final Path fixturesPath = Paths.get(fixturesURL.toURI());
-        final File[] fixtureFiles = Files.list(fixturesPath)
+        final File[] fixtureFiles;
+        try (Stream<Path> stream = Files.list(fixturesPath)) {
+            fixtureFiles = stream
                 .map(Path::toFile)
                 .toArray(File[]::new);
+        }
         final List<Object[]> fixtures = new ArrayList<>(fixtureFiles.length);
 
         for (File fixtureFile : fixtureFiles) {
